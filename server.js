@@ -1,17 +1,17 @@
 const express = require("express");
-
-// const logger = require("./middleware/logger");
 const { connectDB } = require("./db");
-// const errorHandler = require("./middleware/error");
+
 const PORT = 5000;
-categoriesRoutes = require("./routes/categories.js");
+const categoriesRoutes = require("./routes/categories");
+const authRoutes = require("./routes/auth"); // Шинэ auth route
 
 const app = express();
 
 app.use(express.json());
-// app.use(logger);
+
 app.use("/api/categories", categoriesRoutes);
-// app.use(errorHandler);
+app.use("/api/auth", authRoutes);
+
 (async () => {
   await connectDB();
   app.listen(PORT, () => {
