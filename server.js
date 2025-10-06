@@ -12,9 +12,9 @@ const authRoutes = require("./routes/auth");
 const appRoutes = require("./routes/app"); 
 
 const app = express();
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(logger);
 app.use(errorHandler);
 app.use('/api', appRoutes)
