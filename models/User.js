@@ -13,10 +13,10 @@ async function getUserById(id) {
   return result.rows?.[0];
 }
 
-async function getUserByPhone(phone) {
+async function getUserByPhone(email) {
   const result = await pool.query(
-    `SELECT * FROM ${tableName} WHERE phone = $1`,
-    [phone]
+    `SELECT * FROM ${tableName} WHERE email = $1`,
+    [email]
   );
   return result.rows?.[0];
 }

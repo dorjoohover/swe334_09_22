@@ -1,8 +1,24 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-
+const User = require("../models/User");
+const dotenv = require("dotenv");
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
+const nodemailer = require("nodemailer");
+dotenv.config();
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("Error with mail server:", error);
+  } else {
+    console.log("Mail server ready");
+  }
+});
 
 async function register(req, res) {
   try {
@@ -30,8 +46,8 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-    const { phone, password } = req.body;
-    const user = await User.getUserByPhone(phone);
+    const { email, password } = req.body;
+    const user = await User.getUserByPhone(email);
 
     if (!user) return res.status(401).json({ message: "User not found" });
 
@@ -45,7 +61,37 @@ async function login(req, res) {
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    res.json({ token, created_at: new Date() });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Login failed" });
+  }
+}
+
+function generateOtp() {
+  const value = 10000 + Math.round(Math.random() * 90000);
+  return `${value}`.slice(1);
+}
+async function sendOtp(req, res) {
+  try {
+    const { email } = req.body;
+    const user = await User.getUserByPhone(email);
+
+    // if (!user) return res.status(401).json({ message: "User not found" });
+    const otp = generateOtp();
+    const html = `<h1 style={{color: '#926f6fff'}}>Html exaple <b>${otp}</b></h1>`;
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Sending otp",
+      text: `Otp: ${otp}`,
+      html,
+    });
+    res.status(200).json({
+      success: true,
+      messageId: info.messageId,
+      response: info.response,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Login failed" });
@@ -61,4 +107,4 @@ async function profile(req, res) {
   }
 }
 
-module.exports = { register, login, profile };
+module.exports = { register, login, profile, sendOtp };
