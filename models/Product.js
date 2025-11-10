@@ -27,10 +27,10 @@ class Product {
 
   async createProduct(dto) {
     const { name, price, quantity } = dto;
-    if (price <= 0) throw new Error("үнийн дүн 0-с их байх ёстой", 400);
-
-    const product = await this.getProductByName(name);
-    if (product) throw new Error("Бүртгэлтэй бүтээгдэхүүн", 400);
+    // if (price <= 0) throw new Error("үнийн дүн 0-с их байх ёстой", 400);
+// 
+    // const product = await this.getProductByName(name);
+    // if (product) throw new Error("Бүртгэлтэй бүтээгдэхүүн", 400);
     const result = await pool.query(
       `INSERT INTO ${this.#tableName} (name, price, quantity)
        VALUES ($1, $2, $3) RETURNING *`,

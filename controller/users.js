@@ -19,6 +19,34 @@ transporter.verify((error, success) => {
     console.log("Mail server ready");
   }
 });
+function generateOtp() {
+  const value = 10000 + Math.round(Math.random() * 90000);
+  return `${value}`.slice(1);
+}
+async function sendOtp(req, res) {
+  try {
+    const user = await User.getUserByPhone(email);
+
+    // if (!user) return res.status(401).json({ message: "User not found" });
+    const otp = generateOtp();
+    const html = `<h1 style={{color: '#926f6fff'}}>Html exaple <b>${otp}</b></h1>`;
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Sending otp",
+      text: `Otp: ${otp}`,
+      html,
+    });
+    res.status(200).json({
+      success: true,
+      messageId: info.messageId,
+      response: info.response,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Login failed" });
+  }
+}
 
 async function register(req, res) {
   try {
@@ -62,36 +90,6 @@ async function login(req, res) {
     );
 
     res.json({ token, created_at: new Date() });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Login failed" });
-  }
-}
-
-function generateOtp() {
-  const value = 10000 + Math.round(Math.random() * 90000);
-  return `${value}`.slice(1);
-}
-async function sendOtp(req, res) {
-  try {
-    const { email } = req.body;
-    const user = await User.getUserByPhone(email);
-
-    // if (!user) return res.status(401).json({ message: "User not found" });
-    const otp = generateOtp();
-    const html = `<h1 style={{color: '#926f6fff'}}>Html exaple <b>${otp}</b></h1>`;
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Sending otp",
-      text: `Otp: ${otp}`,
-      html,
-    });
-    res.status(200).json({
-      success: true,
-      messageId: info.messageId,
-      response: info.response,
-    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Login failed" });
