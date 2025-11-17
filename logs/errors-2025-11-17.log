@@ -1,0 +1,30 @@
+[2025-11-17T02:23:12.579Z] ERROR: Test error!
+URL: GET /error
+Stack:
+Error: Test error!
+    at D:\projects\ufe\lesson\swe334\day_1\server.js:28:9
+    at Layer.handleRequest (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\layer.js:152:17)
+    at next (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\route.js:117:3)
+    at handle (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\layer.js:152:17)
+    at D:\projects\ufe\lesson\swe334\day_1\node_modules\router\index.js:295:15
+    at processParams (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\index.js:582:12)
+    at next (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\index.js:291:5)
+    at logger (D:\projects\ufe\lesson\swe334\day_1\middleware\logger.js:4:5)
+
+[2025-11-17T02:23:21.905Z] ERROR: asdfa
+URL: GET /api/auth/profile
+Stack:
+Error: asdfa
+    at D:\projects\ufe\lesson\swe334\day_1\middleware\authGuard.js:13:11
+    at D:\projects\ufe\lesson\swe334\day_1\node_modules\jsonwebtoken\verify.js:190:16
+    at getSecret (D:\projects\ufe\lesson\swe334\day_1\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (D:\projects\ufe\lesson\swe334\day_1\node_modules\jsonwebtoken\verify.js:101:10)
+    at authGuard (D:\projects\ufe\lesson\swe334\day_1\middleware\authGuard.js:12:7)
+    at Layer.handleRequest (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\layer.js:152:17)
+    at next (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\route.js:117:3)
+    at handle (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (D:\projects\ufe\lesson\swe334\day_1\node_modules\router\lib\layer.js:152:17)
+

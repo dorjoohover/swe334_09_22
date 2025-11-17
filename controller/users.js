@@ -98,6 +98,7 @@ async function login(req, res) {
 
 async function profile(req, res) {
   try {
+    throw new Error('asdf')
     const user = await User.getUserById(req.user.id);
     res.json(user);
   } catch (err) {
