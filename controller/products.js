@@ -26,6 +26,8 @@ class ProductController {
   }
   async getProductById(req, res, next) {
     try {
+      const user = req.user;
+
       const product = await this.model.getProductById(req.params.id);
       if (!product) {
         return res.status(400).json({
@@ -34,7 +36,7 @@ class ProductController {
         });
       }
       const attrs = await this.#product_attr.getProductAttrById(product.id);
-      console.log(attrs)
+      console.log(attrs);
       res.status(200).json({
         success: true,
         data: { ...product, detail: attrs },
